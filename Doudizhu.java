@@ -1,18 +1,17 @@
 import java.util.ArrayList; 
 import java.util.HashMap;
 public class Doudizhu {
-    private ArrayList<ArrayList<Integer>> playerHands;
-    private ArrayList<> deck = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> playerHands = new ArrayList<ArrayList<Integer>>();
+    private ArrayList<Integer> deck = new ArrayList<Integer>();
     private HashMap<Integer, String> cardValue;
     private int[] landlordCards = new int[3];
-    private int numPlayers;
     private int landLord;
 
-    public Doudiszhu (int numPlayers){
-        this.numPlayers = numPlayers;
-        for (int i = 0; i < numPlayers; i++){
+    public Doudizhu (){
+        for (int i = 0; i < 3; i++){
             playerHands.add(new ArrayList<Integer>());
         }
+        newDeck();
     }
 
     private void newDeck(){
@@ -24,6 +23,7 @@ public class Doudizhu {
         deck.add(14);
         deck.add(15);
 
+        cardValue = new HashMap<Integer, String>();
         cardValue.put(1, "3");
         cardValue.put(2, "4");
         cardValue.put(3, "5");
@@ -43,17 +43,32 @@ public class Doudizhu {
 
     public void deal(){
         for (int i = 0; i < 3; i++){
-            landlordCards[i] = deck.remove(Math.random()*(54-i));
+            int n = (int) Math.random()*(54-i);
+            landlordCards[i] = deck.get(n);
+            deck.remove(n);
         }
         for (int i = 0; i < 17; i++){
             for (int n = 0; n < 3; n++){
-                playerHands.get(n).add(deck.remove(Math.random()*(deck.length())));
+                int x = (int) Math.random()*(deck.size());
+                playerHands.get(n).add(x);
+                deck.remove(x);
             }
         }
-        landLord = Math.random()*3 + 1;
+        landLord = (int) Math.random()*3 + 1;
         System.out.println("Player " + landLord + " is the landlord!");
         for (int i = 0; i < 3; i++){
-            playerhands.get(landLord-1).add(landlordCards[i]);
+            playerHands.get(landLord-1).add(landlordCards[i]);
+        }
+    }
+
+    public void showHands(){
+        for (int player = 0; player < 3; player++){
+            System.out.print("Player 1: ");
+            for (int i = 0; i < playerHands.get(player).size(); i++){
+                String card = cardValue.get(playerHands.get(player).get(i));
+                System.out.print(card + ", ");
+            }
+            System.out.println();
         }
     }
 }

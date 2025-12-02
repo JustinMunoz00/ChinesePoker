@@ -1,4 +1,7 @@
 public class Main{
-    int numPlayers = 3;
-    Doudizhu game = new Doudizhu(numPlayers);
+    public static void main(String[] args) {
+        Doudizhu game = new Doudizhu();
+        game.deal();
+        game.showHands();
+    }
 }
